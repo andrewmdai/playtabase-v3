@@ -39,7 +39,11 @@ export default function Main() {
     <>
       <h1>Loading data, please wait...</h1>
     </>
-  ) : currentPath === '/' && fetchedGames ? (<div className='gameCard'>{gameElements}</div>
-  ) : currentPath === "/create" ? <Create /> 
-    : currentPath === "/[id]" ? <GameDetail games={games} /> : null
+  ) : currentPath === '/' && fetchedGames ? (
+    <div className='gameCard'>{gameElements}</div>
+  ) : currentPath === '/create' ? (
+    <Create />
+  ) : currentPath === '/[id]' ? (
+    <GameDetail games={games} />
+  ) : null;
 }

@@ -12,10 +12,6 @@ import {
 } from '@mui/material';
 import React, { useState } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
-// import EditIcon from '@mui/icons-material/Edit';
-// import FavoriteIcon from '@mui/icons-material/Favorite';
-// import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-// import MoreVertIcon from '@mui/icons-material/MoreVert';
 import FaceIcon from '@mui/icons-material/Face';
 import Groups2RoundedIcon from '@mui/icons-material/Groups2Rounded';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
@@ -117,7 +113,7 @@ const Create = (props: any) => {
       const suppliesReq = supplies.split(',');
 
       const settingArray = [];
-      for (const idx in settingSet) {
+      for (const idx of settingSet) {
         settingArray.push(settings[idx]);
       }
       const setting = settingArray[0];
@@ -184,7 +180,7 @@ const Create = (props: any) => {
         }
         key={audience + index}
         label={audience}
-        id='chip'
+        id='createChip'
         sx={{
           '& .MuiChip-label': {
             fontSize: '1.1em',
@@ -217,7 +213,7 @@ const Create = (props: any) => {
         }
         key={group + index}
         label={group}
-        id='chip'
+        id='groupChip'
         sx={{
           '& .MuiChip-label': {
             fontSize: '1.1em',
@@ -311,175 +307,157 @@ const Create = (props: any) => {
               </Tooltip>
             )
           }
-          id='chip'
+          id='createChip'
+          // sx = {{ margin: '100px'}}
         />
       </div>
     );
   });
 
   return (
-    <div className='createGameCardContainer'>
-      <Card
-        variant='outlined'
-        sx={{
-          borderRadius: '15px',
-          boxShadow: 5,
-          margin: 2,
-          padding: 2,
-          height: '100%',
-          display: 'flex',
-          flexDirection: 'column',
-          flexGrow: 1,
+    <Card
+      variant='outlined'
+      sx={{
+        borderRadius: '15px',
+        boxShadow: 5,
+        margin: 2,
+        padding: 2,
+        height: 'auto',
+        display: 'flex',
+        flexDirection: 'column',
+        flexGrow: 1,
+      }}
+    >
+      <CardHeader
+        action={
+          <div className='cardTimes' style={{ marginTop: '0.35em' }}>
+            <h3>Setting (Choose One):&nbsp;&nbsp;</h3> {settingsCheckboxes}
+            <IconButton aria-label='close' sx={{ marginLeft: '0.25em' }}>
+              <Tooltip title='Close'>
+                <CloseIcon onClick={() => router.push('/')} />
+              </Tooltip>
+            </IconButton>
+          </div>
+        }
+        titleTypographyProps={{
+          fontFamily: 'Poppins',
+          fontSize: '2em',
+          fontWeight: '700',
         }}
-      >
-        <CardHeader
-          action={
-            <div className='cardTimes'>
-              <h3>Setting (Choose One):&nbsp;&nbsp;</h3> {settingsCheckboxes}
-              {/* <IconButton aria-label='settings'>
-                <MoreVertIcon />
-              </IconButton> */}
-              {/* <IconButton aria-label='edit'>
-                <Tooltip title='Edit'>
-                  <EditIcon />
-                </Tooltip>
-              </IconButton> */}
-              <IconButton aria-label='close'>
-                <Tooltip title='Close'>
-                  <CloseIcon onClick={() => router.push('/')} />
-                </Tooltip>
-              </IconButton>
-            </div>
-          }
-          titleTypographyProps={{
-            fontFamily: 'Poppins',
-            fontSize: '2em',
-            fontWeight: '700',
-          }}
-          title=<a>Create a Game</a>
-        />
-        <CardContent>
+        title=<a>Create a Game</a>
+      />
+      <CardContent>
+        <div>
           <div>
             <div>
-              <div>
-                <TextField
-                  id='textInput'
-                  label='Game Name'
-                  variant='outlined'
-                  size='small'
-                  fullWidth
-                  value={name}
-                  onChange={nameOnChange}
-                  required
-                  sx={{ marginBottom: 2 }}
-                />
-              </div>
-              <div className='cardTimes'>
-                <Tooltip title='Set-Up Time Required'>
-                  <BuildRoundedIcon sx={{ fontSize: 20, mr: 1 }} />
-                </Tooltip>{' '}
-                <h3 color='black'> Set-up Time Required (Choose One): </h3>
-                <div className='cardTimes'>{setupCheckboxes}</div>
-              </div>
-              <div className='cardTimes'>
-                <Tooltip title='Time Required'>
-                  <QueryBuilderRoundedIcon sx={{ fontSize: 20, mr: 1 }} />
-                </Tooltip>
-                <h3> Time Required (Choose One): </h3>
-                <div id='lengths' className='cardTimes'>
-                  {lengthCheckboxes}
-                </div>
-              </div>
-            </div>
-            <TextField
-              id='textInput'
-              label='Supplies (i.e. rocks, papers, scissors)'
-              variant='outlined'
-              size='small'
-              fullWidth
-              value={supplies}
-              onChange={suppliesOnChange}
-              sx={{ my: 1 }}
-            />
-            <TextField
-              id='textInput'
-              label='Set Up'
-              variant='outlined'
-              size='small'
-              fullWidth
-              value={setup}
-              onChange={setupOnChange}
-              sx={{ my: 1 }}
-            />
-            <div className='cardTimes'>
-              <Tooltip title='Audience'>
-                <FaceIcon sx={{ fontSize: 20, mr: 1 }} />
-              </Tooltip>{' '}
-              <h3>Audience:&nbsp;&nbsp;&nbsp;&nbsp;</h3>
-              {audienceCheckboxes}
+              <TextField
+                id='textInput'
+                label='Game Name'
+                variant='outlined'
+                size='small'
+                fullWidth
+                value={name}
+                onChange={nameOnChange}
+                required
+                sx={{ marginBottom: 2 }}
+              />
             </div>
             <div className='cardTimes'>
-              <Tooltip title='Group Size'>
-                <Groups2RoundedIcon sx={{ fontSize: 20, mr: 1 }} />
+              <Tooltip title='Set-Up Time Required'>
+                <BuildRoundedIcon sx={{ fontSize: 20, mr: 1 }} />
               </Tooltip>{' '}
-              <h3>Group Size:&nbsp;&nbsp;&nbsp;&nbsp;</h3>
-              {groupsCheckboxes}
+              <h3 color='black'> Set-up Time Required (Choose One): </h3>
+              <div className='cardTimes'>{setupCheckboxes}</div>
+            </div>
+            <div className='cardTimes'>
+              <Tooltip title='Time Required'>
+                <QueryBuilderRoundedIcon sx={{ fontSize: 20, mr: 1 }} />
+              </Tooltip>
+              <h3> Time Required (Choose One): </h3>
+              <div id='lengths' className='cardTimes'>
+                {lengthCheckboxes}
+              </div>
             </div>
           </div>
-
           <TextField
-            id='outlined-multiline-flexible'
-            label='How To Play'
-            multiline
-            minRows={3}
-            value={howto}
-            onChange={howtoOnChange}
+            id='textInput'
+            label='Supplies (i.e. rocks, papers, scissors)'
+            variant='outlined'
+            size='small'
             fullWidth
-            required
+            value={supplies}
+            onChange={suppliesOnChange}
             sx={{ my: 1 }}
           />
           <TextField
             id='textInput'
-            label='Tags (i.e. fun, active, casual)'
+            label='Set Up'
             variant='outlined'
             size='small'
             fullWidth
-            value={tagsInput}
-            onChange={tagsOnChange}
+            value={setup}
+            onChange={setupOnChange}
             sx={{ my: 1 }}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position='start'>
-                  <IconButton>
-                    <LocalOfferIcon sx={{ ml: -1.5, mr: -1.5, fontSize: 17 }} />
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
           />
-        </CardContent>
-        <CardActions disableSpacing sx={{ mt: 'auto' }}>
-          {/* <IconButton aria-label='add to favorites'>
-            <FavoriteIcon />
-          </IconButton> */}
-          {/* <IconButton aria-label='share'>
-            <ShareIcon />
-          </IconButton> */}
-          {/* <IconButton aria-label='tags'>
-            <LocalOfferIcon /> {tagElements}
-          </IconButton> */}
-          <Button
-            id='createSubmit'
-            variant='outlined'
-            size='medium'
-            onClick={() => saveGame()}
-            sx={{ m: 1 }}
-          >
-            Submit
-          </Button>
-        </CardActions>
-      </Card>
-    </div>
+          <div className='cardTimes'>
+            <Tooltip title='Audience'>
+              <FaceIcon sx={{ fontSize: 20, mr: 1 }} />
+            </Tooltip>{' '}
+            <h3>Audience:&nbsp;&nbsp;</h3>
+            {audienceCheckboxes}
+          </div>
+          <div className='cardTimes'>
+            <Tooltip title='Group Size'>
+              <Groups2RoundedIcon sx={{ fontSize: 20, mr: 1 }} />
+            </Tooltip>{' '}
+            <h3>Group Size:&nbsp;&nbsp;</h3>
+            {groupsCheckboxes}
+          </div>
+        </div>
+
+        <TextField
+          id='outlined-multiline-flexible'
+          label='How To Play'
+          multiline
+          minRows={3}
+          value={howto}
+          onChange={howtoOnChange}
+          fullWidth
+          required
+          sx={{ my: 1 }}
+        />
+        <TextField
+          id='textInput'
+          label='Tags (i.e. fun, active, casual)'
+          variant='outlined'
+          size='small'
+          fullWidth
+          value={tagsInput}
+          onChange={tagsOnChange}
+          sx={{ my: 1 }}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position='start'>
+                <IconButton>
+                  <LocalOfferIcon sx={{ ml: -1.5, mr: -1.5, fontSize: 17 }} />
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        />
+      </CardContent>
+      <CardActions disableSpacing sx={{ mt: 'auto' }}>
+        <Button
+          id='createSubmit'
+          variant='outlined'
+          size='medium'
+          onClick={() => saveGame()}
+          sx={{ m: 1 }}
+        >
+          Submit
+        </Button>
+      </CardActions>
+    </Card>
   );
 };
 

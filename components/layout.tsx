@@ -4,7 +4,6 @@ import Drawer from '@mui/material/Drawer';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
-// import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
@@ -339,7 +338,9 @@ export default function RootLayout({
 
             <div id='title' style={{ flexGrow: 1 }}>
               <Link href={'/'} style={{ textDecoration: 'none' }}>
-                <h1>playtabase</h1>
+                <h1>
+                  playtabase&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </h1>
               </Link>
               <h2 color='white'>your game & activity database</h2>
             </div>
@@ -376,8 +377,8 @@ export default function RootLayout({
           open={open}
         >
           {/* <DrawerHeader 
-      // sx={{ height: 112 }}
-      ></DrawerHeader> */}
+          // sx={{ height: 112 }}
+          ></DrawerHeader> */}
 
           <div id='filter'>
             {/* Search Field */}

@@ -11,6 +11,43 @@
   background-color: #2196f3;
 }
 
+h1 {
+  background-image: linear-gradient(
+    to right,
+    #ffffff,
+    #ffffff 50%,
+    #ffffff 50%
+  );
+  background-size: 200% 100%;
+  background-position: -100%;
+  width: fit-content;
+  padding: 5px 0;
+  position: relative;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: all 0.3s ease-in-out;
+}
+
+h1:before {
+  content: '';
+  background: #ffffff;
+  display: block;
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  width: 0;
+  height: 3px;
+  transition: all 0.3s ease-in-out;
+}
+
+h1:hover {
+  background-position: 0;
+}
+
+h1:hover::before {
+  width: 100%;
+}
+
 #drawerButton {
   width: 12.5vh;
   display: flex;
@@ -28,7 +65,7 @@ h1 {
   font-weight: 700;
   letter-spacing: -0.075em;
   color: white;
-  line-height: 1em;
+  line-height: 1.12em;
   padding: 0px !important;
   margin: 0px !important;
 }
@@ -72,7 +109,7 @@ h5 {
 }
 
 h6 {
-    font-weight: 600;
+  font-weight: 600;
 }
 
 p {
@@ -84,7 +121,7 @@ p {
 }
 
 #filter {
-  background-color: #757575;
+  background-color: #7e7e7e;
   margin-top: 12.4vh;
   padding: 9% 8% 4% 8%;
   color: rgb(255, 255, 255);
@@ -128,7 +165,6 @@ p {
   display: grid;
   grid-template-columns: repeat(3, 1FR);
   grid-template-rows: repeat(3, 1FR);
-  row-gap: 3vmin;
 }
 
 .cardStyle {
@@ -143,23 +179,51 @@ p {
   width: 100%;
 }
 
-.createGameCardContainer {
+.gameCardContainer {
   display: flex;
-  height: 81vh;
+  height: 80vh;
   margin: 0 !important;
+}
+
+.createEditContainer {
+  height: auto;
+}
+
+#chip,
+#groupChip,
+#tagChip {
+  color: rgb(255, 255, 255);
+  font-size: 0.65em;
+  margin: 0.25em 0.5em 0.25em 0em;
+}
+
+#createChip {
+  background-color: #2196f3;
+  color: rgb(255, 255, 255);
+  font-size: 0.65em;
+  margin-left: 0.5em;
 }
 
 #chip {
   background-color: #2196f3;
-  color: rgb(255, 255, 255);
-  font-size: 0.65em;
-  margin: 0em 0.5em 0.5em 0em;
 }
 
-#createSubmit {
-  position: absolute;
-  bottom: 1;
-  margin-bottom: 4em;
+#groupChip {
+  background-color: #45cf83;
+}
+
+#tagChip {
+  background-color: #e04234;
+}
+
+.MuiCardContent-root {
+  padding: 0 1em 0 1em;
+}
+
+.MuiCardActions-root {
+  margin: 0;
+  display: flex;
+  justify-content: space-between;
 }
 
 .poppins.className:hover {

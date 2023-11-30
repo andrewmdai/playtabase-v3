@@ -3,10 +3,6 @@ import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 import IconButton from '@mui/material/IconButton';
-// import Typography from '@mui/material/Typography';
-// import FavoriteIcon from '@mui/icons-material/Favorite';
-// import ShareIcon from '@mui/icons-material/Share';
-// import MoreVertIcon from '@mui/icons-material/MoreVert';
 import FaceIcon from '@mui/icons-material/Face';
 import Groups2RoundedIcon from '@mui/icons-material/Groups2Rounded';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
@@ -36,9 +32,30 @@ const poppins = Poppins({
 });
 
 export default function GameDetail({ games }: any) {
+  
   const router = useRouter();
+
   const { id } = router.query;
-  const game = games.find((game: any) => game._id === id);
+
+  let game = null;
+
+  if (!games) {
+    fetch(`/api/getgame?id=${id}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(resp => resp.json())
+      .then(data => {
+        console.log(data);
+        game = data.data;
+        router.push(`/${game._id}`);
+      })
+      .catch(err => console.log('GetGame fetch /api/getgame: ERROR: ', err));
+  } else {
+    game = games.find((game: any) => game._id === id);
+  }
 
   const {
     name,
@@ -222,12 +239,34 @@ export default function GameDetail({ games }: any) {
         .then(resp => resp.json())
         .then(data => {
           console.log(data);
-          router.push('/');
         })
         .catch(err =>
           console.log('EditGame fetch /api/editgame: ERROR: ', err),
         );
+
+      setEditing(false);
     }
+  };
+
+  const deleteGame = () => {
+    const _id = id;
+    const body = { _id };
+    console.log('ID to delete: ', body);
+
+    fetch('/api/deletegame', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    })
+      .then(resp => resp.json())
+      .then(data => {
+        router.push('/');
+      })
+      .catch(err =>
+        console.log('DeleteGame fetch /api/deletegame: ERROR: ', err),
+      );
   };
 
   // ___________________________________________________________________________________________-
@@ -236,7 +275,7 @@ export default function GameDetail({ games }: any) {
     return (
       <Chip
         size='small'
-        icon={<FaceIcon color='disabled' />}
+        icon={<FaceIcon color='inherit' />}
         key={age + i}
         label={age}
         id='chip'
@@ -249,10 +288,22 @@ export default function GameDetail({ games }: any) {
     return (
       <Chip
         size='small'
-        icon={<Groups2RoundedIcon color='disabled' />}
+        avatar={
+          <span
+            style={{ color: 'white', display: 'flex', alignItems: 'center' }}
+          >
+            <Groups2RoundedIcon
+              style={{
+                marginLeft: '0.3em',
+                marginRight: '0.3em',
+                fontSize: '1.5em',
+              }}
+            />
+          </span>
+        }
         key={group + i}
         label={group}
-        id='chip'
+        id='groupChip'
         sx={{ mt: 0.5, mr: 0.5 }}
       />
     );
@@ -260,7 +311,13 @@ export default function GameDetail({ games }: any) {
 
   const tagElements = tags.map((tag: string, i: number) => {
     return (
-      <Chip size='small' key={tag + i} label={tag} id='chip' sx={{ mr: 0.5 }} />
+      <Chip
+        size='small'
+        key={tag + i}
+        label={tag}
+        id='tagChip'
+        sx={{ mr: 0.5 }}
+      />
     );
   });
 
@@ -277,13 +334,12 @@ export default function GameDetail({ games }: any) {
   const audienceCheckboxes = audiences.map((audience, index) => {
     return (
       <Chip
-        className='checkboxWithLabel'
         size='medium'
         icon={
           <Checkbox
             size='small'
             className='audienceCheckbox'
-            style={{ color: 'white' }}
+            style={{ color: 'white', marginRight: '-1.5em' }}
             value={index}
             checked={editAges[index]}
             onChange={handleAudienceCheck}
@@ -291,7 +347,13 @@ export default function GameDetail({ games }: any) {
         }
         key={audience + index}
         label={audience}
-        id='chip'
+        id='createChip'
+        sx={{
+          '& .MuiChip-label': {
+            fontSize: '1.1em',
+          },
+          my: 0.5,
+        }}
       />
     );
   });
@@ -311,8 +373,7 @@ export default function GameDetail({ games }: any) {
         icon={
           <Checkbox
             size='small'
-            className='groupsCheckbox'
-            style={{ color: 'white' }}
+            style={{ color: 'white', marginRight: '-1.5em' }}
             checked={editGroup[index]}
             value={index}
             onChange={handleGroupCheck}
@@ -320,7 +381,13 @@ export default function GameDetail({ games }: any) {
         }
         key={group + index}
         label={group}
-        id='chip'
+        id='groupChip'
+        sx={{
+          '& .MuiChip-label': {
+            fontSize: '1.1em',
+          },
+          my: 0.5,
+        }}
       />
     );
   });
@@ -397,15 +464,19 @@ export default function GameDetail({ games }: any) {
           label={
             settingVar === 'in-person' ? (
               <Tooltip title='In-Person'>
-                <PeopleAltRoundedIcon sx={{ mt: 0.25 }} />
+                <PeopleAltRoundedIcon
+                  sx={{ verticalAlign: 'middle', marginLeft: '-0.25em' }}
+                />
               </Tooltip>
             ) : (
               <Tooltip title='Virtual'>
-                <PhonelinkIcon sx={{ mt: 0.25 }} />
+                <PhonelinkIcon
+                  sx={{ verticalAlign: 'middle', marginLeft: '-0.25em' }}
+                />
               </Tooltip>
             )
           }
-          id='chip'
+          id='createChip'
         />
       </div>
     );
@@ -414,277 +485,265 @@ export default function GameDetail({ games }: any) {
   // -------------------------------------------------------------------------------------------
 
   return (
-    <div className='createGameCardContainer'>
+    <div>
       {!editing ? (
         // -------------------------- CARD VIEW --------------------------
-        <Card
-          className='detailCard'
-          variant='outlined'
-          sx={{
-            borderRadius: '15px',
-            boxShadow: 5,
-            margin: 2,
-            height: '100%',
-            display: 'flex',
-            flexDirection: 'column',
-          }}
-        >
-          <CardHeader
-            action={
-              <div>
-                <IconButton aria-label='settings'>
-                  {setting === 'in-person' ? (
-                    <Tooltip title='In-Person'>
-                      <PeopleAltRoundedIcon />
-                    </Tooltip>
-                  ) : (
-                    <Tooltip title='Virtual'>
-                      <PhonelinkIcon />
-                    </Tooltip>
-                  )}
-                </IconButton>
-
-                {/* <IconButton aria-label='settings'>
-                  <MoreVertIcon />
-                </IconButton> */}
-
-                <IconButton aria-label='settings'>
-                  <Tooltip title='Edit'>
-                    <EditIcon onClick={() => setEditing(!editing)} />
-                  </Tooltip>
-                </IconButton>
-
-                <IconButton aria-label='settings'>
-                  <Tooltip title='Close'>
-                    <CloseIcon onClick={() => router.push('/')} />
-                  </Tooltip>
-                </IconButton>
-              </div>
-            }
-            title={<a className={poppins.className}>{name}</a>}
-            subheader={
-              <div>
-                <div className='cardTimes'>
-                  <Tooltip title='Set-Up Time Required'>
-                    <BuildRoundedIcon sx={{ fontSize: 15 }} />
-                  </Tooltip>{' '}
-                  {setupTimeReq}{' '}
-                  <Tooltip title='Time Required'>
-                    <QueryBuilderRoundedIcon sx={{ fontSize: 15, mx: 0.5 }} />
-                  </Tooltip>{' '}
-                  {timeReq}
-                </div>
-                <div className='cardSetup'>
-                  <p>Supplies: {!suppliesReq.length ? 'none' : suppliesReq}</p>
-                  <p>Setup: {!setup ? 'none' : setup}</p>
-                </div>
-                <div>{ageElements}</div>
-                <div>{groupElements}</div>
-              </div>
-            }
-          />
-
-          <Divider textAlign='left' sx={{ fontSize: '.9em', color: 'gray' }}>
-            Rules
-          </Divider>
-
-          <CardContent
+        <div className='gameCardContainer'>
+          <Card
+            className='detailCard'
+            variant='outlined'
             sx={{
-              color: 'gray',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
+              borderRadius: '15px',
+              boxShadow: 5,
+              margin: 2,
+              height: '100%',
+              display: 'flex',
+              flexDirection: 'column',
             }}
           >
-            <p color='gray'>{howToPlay}</p>
-          </CardContent>
-          <CardActions disableSpacing sx={{ mt: 'auto' }}>
-            {/* <IconButton aria-label='add to favorites'>
-              <FavoriteIcon />
-            </IconButton>
-            <IconButton aria-label='share'>
-              <ShareIcon />
-            </IconButton> */}
-            <div>
-              <Tooltip title='Tags'>
-                <IconButton aria-label='tags'>
-                  <LocalOfferIcon sx={{ mr: 1 }} />
-                </IconButton>
-              </Tooltip>
-              {tagElements}
-            </div>
-          </CardActions>
-        </Card>
+            <CardHeader
+              action={
+                <div>
+                  <IconButton aria-label='settings'>
+                    {setting === 'in-person' ? (
+                      <Tooltip title='In-Person'>
+                        <PeopleAltRoundedIcon />
+                      </Tooltip>
+                    ) : (
+                      <Tooltip title='Virtual'>
+                        <PhonelinkIcon />
+                      </Tooltip>
+                    )}
+                  </IconButton>
+
+                  <IconButton aria-label='settings'>
+                    <Tooltip title='Edit'>
+                      <EditIcon onClick={() => setEditing(!editing)} />
+                    </Tooltip>
+                  </IconButton>
+
+                  <IconButton aria-label='settings'>
+                    <Tooltip title='Close'>
+                      <CloseIcon onClick={() => router.push('/')} />
+                    </Tooltip>
+                  </IconButton>
+                </div>
+              }
+              title={<a className={poppins.className}>{name}</a>}
+              subheader={
+                <div>
+                  <div className='cardTimes'>
+                    <Tooltip title='Set-Up Time Required'>
+                      <BuildRoundedIcon sx={{ fontSize: 15 }} />
+                    </Tooltip>{' '}
+                    {setupTimeReq}{' '}
+                    <Tooltip title='Time Required'>
+                      <QueryBuilderRoundedIcon sx={{ fontSize: 15, mx: 0.5 }} />
+                    </Tooltip>{' '}
+                    {timeReq}
+                  </div>
+                  <div className='cardSetup'>
+                    <p>
+                      Supplies: {!suppliesReq.length ? 'none' : suppliesReq}
+                    </p>
+                    <p>Setup: {!setup ? 'none' : setup}</p>
+                  </div>
+                  <div>{ageElements}</div>
+                  <div>{groupElements}</div>
+                </div>
+              }
+            />
+
+            <Divider sx={{ marginBottom: '1em'}}/>
+
+            <CardContent
+              sx={{
+                color: 'gray',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+              }}
+            >
+              <p color='gray'>{howToPlay}</p>
+            </CardContent>
+            <CardActions disableSpacing sx={{ flexGrow: 1, alignItems: 'end' }}>
+              <div>
+                <Tooltip title='Tags'>
+                  <IconButton aria-label='tags'>
+                    <LocalOfferIcon />
+                  </IconButton>
+                </Tooltip>
+                {tagElements}
+              </div>
+            </CardActions>
+          </Card>
+        </div>
       ) : (
         // -------------------------- EDITING VIEW --------------------------
-        <Card
-          className='createGameCardContainer'
-          variant='outlined'
-          sx={{
-            borderRadius: '15px',
-            boxShadow: 5,
-            margin: 2,
-            padding: 2,
-            height: '100%',
-            display: 'flex',
-            flexDirection: 'column',
-            flexGrow: 1,
-          }}
-        >
-          <CardHeader
-            action={
-              <div className='cardTimes'>
-                <h3>Setting (Choose One):&nbsp;&nbsp;</h3>
-                {settingsCheckboxes}
-                {/* <IconButton aria-label='settings'>
-                  <MoreVertIcon />
-                </IconButton> */}
-                {/* <IconButton aria-label='edit'>
-                  <Tooltip title='Edit'>
-                    <EditIcon onClick={() => setEditing(!editing)} />
-                  </Tooltip>
-                </IconButton> */}
-                <IconButton aria-label='close'>
-                  <Tooltip title='Close'>
-                    <CloseIcon onClick={() => router.push('/')} />
-                  </Tooltip>
-                </IconButton>
-              </div>
-            }
-            titleTypographyProps={{
-              fontFamily: 'Poppins',
-              fontSize: '2em',
-              fontWeight: '700',
+        <div>
+          <Card
+            className='createGameCardContainer'
+            variant='outlined'
+            sx={{
+              borderRadius: '15px',
+              boxShadow: 5,
+              margin: 2,
+              padding: 2,
+              height: 'auto',
+              display: 'flex',
+              flexDirection: 'column',
+              flexGrow: 1,
             }}
-            title=<a>Edit Game</a>
-          />
-          <CardContent>
-            <div>
+          >
+            <CardHeader
+              action={
+                <div className='cardTimes' style={{ marginTop: '0.35em' }}>
+                  <h3>Setting (Choose One):&nbsp;&nbsp;</h3>
+                  {settingsCheckboxes}
+                  <IconButton aria-label='close' sx={{ marginLeft: '0.25em' }}>
+                    <Tooltip title='Close'>
+                      <CloseIcon onClick={() => router.push('/')} />
+                    </Tooltip>
+                  </IconButton>
+                </div>
+              }
+              titleTypographyProps={{
+                fontFamily: 'Poppins',
+                fontSize: '2em',
+                fontWeight: '700',
+              }}
+              title=<a>Edit Game</a>
+            />
+            <CardContent>
               <div>
                 <div>
-                  <TextField
-                    id='textInput'
-                    label='Game Name'
-                    variant='outlined'
-                    size='small'
-                    fullWidth
-                    value={editName}
-                    onChange={setEditName}
-                    required
-                    sx={{ marginBottom: 2 }}
-                  />
-                </div>
-                <div className='cardTimes'>
-                  <Tooltip title='Set-Up Time Required'>
-                    <BuildRoundedIcon sx={{ fontSize: 20, mr: 1 }} />
-                  </Tooltip>{' '}
-                  <h3> Set-Up Time Required (Choose One): </h3>
-                  <div className='cardTimes'>{setupCheckboxes}</div>
-                </div>
+                  <div>
+                    <TextField
+                      id='textInput'
+                      label='Game Name'
+                      variant='outlined'
+                      size='small'
+                      fullWidth
+                      value={editName}
+                      onChange={setEditName}
+                      required
+                      sx={{ marginBottom: 2 }}
+                    />
+                  </div>
+                  <div className='cardTimes'>
+                    <Tooltip title='Set-Up Time Required'>
+                      <BuildRoundedIcon sx={{ fontSize: 20, mr: 1 }} />
+                    </Tooltip>{' '}
+                    <h3> Set-up Time Required (Choose One): </h3>
+                    <div className='cardTimes'>{setupCheckboxes}</div>
+                  </div>
 
-                <div className='cardTimes'>
-                  <Tooltip title='Time Required'>
-                    <QueryBuilderRoundedIcon sx={{ fontSize: 20, mr: 1 }} />
-                  </Tooltip>{' '}
-                  <h3> Time Required (Choose One): </h3>
-                  <div id='lengths' className='cardTimes'>
-                    {lengthCheckboxes}
+                  <div className='cardTimes'>
+                    <Tooltip title='Time Required'>
+                      <QueryBuilderRoundedIcon sx={{ fontSize: 20, mr: 1 }} />
+                    </Tooltip>{' '}
+                    <h3> Time Required (Choose One): </h3>
+                    <div id='lengths' className='cardTimes'>
+                      {lengthCheckboxes}
+                    </div>
                   </div>
                 </div>
+                <TextField
+                  id='textInput'
+                  label='Supplies (i.e. rocks, papers, scissors)'
+                  variant='outlined'
+                  size='small'
+                  fullWidth
+                  value={editSupplies}
+                  onChange={setEditSupplies}
+                  sx={{ my: 1 }}
+                />
+                <TextField
+                  id='textInput'
+                  label='Set Up'
+                  variant='outlined'
+                  size='small'
+                  fullWidth
+                  value={editSetup}
+                  onChange={setEditSetup}
+                  sx={{ my: 1 }}
+                />
+                <div className='cardTimes'>
+                  <Tooltip title='Audience'>
+                    <FaceIcon sx={{ fontSize: 20, mr: 1 }} />
+                  </Tooltip>{' '}
+                  <h3>Audience:&nbsp;&nbsp;</h3>
+                  {audienceCheckboxes}
+                </div>
+                <div className='cardTimes'>
+                  <Tooltip title='Group Size'>
+                    <Groups2RoundedIcon sx={{ fontSize: 20, mr: 1 }} />
+                  </Tooltip>{' '}
+                  <h3>Group Size:&nbsp;&nbsp;</h3>
+                  {groupsCheckboxes}
+                </div>
               </div>
               <TextField
-                id='textInput'
-                label='Supplies (i.e. rocks, papers, scissors)'
-                variant='outlined'
-                size='small'
+                id='outlined-multiline-flexible'
+                label='How To Play'
+                multiline
+                minRows={3}
+                value={editHowTo}
+                onChange={setEditHowTo}
                 fullWidth
-                value={editSupplies}
-                onChange={setEditSupplies}
+                required
                 sx={{ my: 1 }}
               />
               <TextField
                 id='textInput'
-                label='Set Up'
+                label='Tags (i.e. fun, active, casual)'
                 variant='outlined'
                 size='small'
                 fullWidth
-                value={editSetup}
-                onChange={setEditSetup}
+                value={editTags}
+                onChange={setEditTags}
                 sx={{ my: 1 }}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position='start'>
+                      <IconButton>
+                        <LocalOfferIcon
+                          sx={{ ml: -1.5, mr: -1.5, fontSize: 17 }}
+                        />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
               />
-              <div className='cardTimes'>
-                <Tooltip title='Audience'>
-                  <FaceIcon sx={{ fontSize: 20, mr: 1 }} />
-                </Tooltip>{' '}
-                <h3>Audience:&nbsp;&nbsp;&nbsp;&nbsp;</h3>
-                {audienceCheckboxes}
-              </div>
-              <div className='cardTimes'>
-                <Tooltip title='Group Size'>
-                  <Groups2RoundedIcon sx={{ fontSize: 20, mr: 1 }} />
-                </Tooltip>{' '}
-                <h3>Group Size:&nbsp;&nbsp;&nbsp;&nbsp;</h3>
-                {groupsCheckboxes}
-              </div>
-            </div>
-            <TextField
-              id='outlined-multiline-flexible'
-              label='How To Play'
-              multiline
-              minRows={3}
-              value={editHowTo}
-              onChange={setEditHowTo}
-              fullWidth
-              required
-              sx={{ my: 1 }}
-            />
-            {/* <IconButton aria-label='tags'>
-                <LocalOfferIcon />
-              </IconButton> */}
-            <TextField
-              id='textInput'
-              label='Tags (i.e. fun, active, casual)'
-              variant='outlined'
-              size='small'
-              fullWidth
-              value={editTags}
-              onChange={setEditTags}
-              sx={{ my: 1 }}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position='start'>
-                    <IconButton>
-                      <LocalOfferIcon
-                        sx={{ ml: -1.5, mr: -1.5, fontSize: 17 }}
-                      />
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-            />
-          </CardContent>
-          <CardActions disableSpacing sx={{ mt: 'auto' }}>
-            {/* <IconButton aria-label='add to favorites'>
-        <FavoriteIcon />
-      </IconButton> */}
-            {/* <IconButton aria-label='share'>
-        <ShareIcon />
-      </IconButton> */}
-            {/* <IconButton aria-label='tags'>
-        <LocalOfferIcon /> {tagElements}
-      </IconButton> */}
-            <Button
-              id='createSubmit'
-              variant='outlined'
-              size='medium'
-              onClick={() => {
-                editGame();
-              }}
-              sx={{ m: 1 }}
-            >
-              Save
-            </Button>
-          </CardActions>
-        </Card>
+            </CardContent>
+            <CardActions disableSpacing sx={{ mt: 'auto' }}>
+              <Button
+                variant='outlined'
+                size='medium'
+                onClick={() => {
+                  editGame();
+                }}
+                sx={{ m: 1 }}
+              >
+                Save
+              </Button>
+              <Button
+                variant='contained'
+                size='medium'
+                onClick={() => {
+                  const confirmBox = window.confirm(
+                    'Are you sure you want to delete this game?',
+                  );
+                  if (confirmBox === true) {
+                    deleteGame();
+                  }
+                }}
+                sx={{ m: 1, backgroundColor: 'red' }}
+              >
+                Delete
+              </Button>
+            </CardActions>
+          </Card>
+        </div>
       )}
     </div>
   );

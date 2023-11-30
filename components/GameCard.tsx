@@ -3,9 +3,6 @@ import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 import IconButton from '@mui/material/IconButton';
-// import FavoriteIcon from '@mui/icons-material/Favorite';
-// import ShareIcon from '@mui/icons-material/Share';
-// import MoreVertIcon from '@mui/icons-material/MoreVert';
 import FaceIcon from '@mui/icons-material/Face';
 import Groups2RoundedIcon from '@mui/icons-material/Groups2Rounded';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
@@ -62,7 +59,7 @@ const GameCard: React.FC<GameCardProps> = ({ info }) => {
     return (
       <Chip
         size='small'
-        icon={<FaceIcon color='disabled' />}
+        icon={<FaceIcon color='inherit' />}
         key={age + i}
         label={age}
         id='chip'
@@ -84,17 +81,29 @@ const GameCard: React.FC<GameCardProps> = ({ info }) => {
     return (
       <Chip
         size='small'
-        icon={<Groups2RoundedIcon color='disabled' />}
+        avatar={
+          <span
+            style={{ color: 'white', display: 'flex', alignItems: 'center' }}
+          >
+            <Groups2RoundedIcon
+              style={{
+                marginLeft: '0.3em',
+                marginRight: '0.3em',
+                fontSize: '1.5em',
+              }}
+            />
+          </span>
+        }
         key={group + i}
         label={getGroupLabel(group)}
-        id='chip'
+        id='groupChip'
       />
     );
   });
 
   const tagElements = tags.map((tag: string, i: number) => {
     if (tag) {
-      return <Chip size='small' key={tag + i} label={tag} id='chip' />;
+      return <Chip size='small' key={tag + i} label={tag} id='tagChip' />;
     }
   });
 
@@ -106,7 +115,7 @@ const GameCard: React.FC<GameCardProps> = ({ info }) => {
           borderRadius: '15px',
           boxShadow: 5,
           margin: 2,
-          height: '100%',
+          height: '55vh',
           display: 'flex',
           flexDirection: 'column',
           maxHeight: 600,
@@ -126,10 +135,6 @@ const GameCard: React.FC<GameCardProps> = ({ info }) => {
                   </Tooltip>
                 )}
               </IconButton>
-
-              {/* <IconButton aria-label='settings'>
-              <MoreVertIcon />
-            </IconButton> */}
             </div>
           }
           title={
@@ -138,7 +143,7 @@ const GameCard: React.FC<GameCardProps> = ({ info }) => {
             </Link>
           }
           subheader={
-            <div >
+            <div>
               <div className='cardTimes'>
                 <Tooltip title='Set-Up Time Required'>
                   <BuildRoundedIcon sx={{ fontSize: 15 }} />
@@ -159,7 +164,7 @@ const GameCard: React.FC<GameCardProps> = ({ info }) => {
           }
         />
 
-        <Divider />
+        <Divider sx={{ marginBottom: '1em'}}/>
 
         <CardContent
           sx={{
@@ -170,17 +175,12 @@ const GameCard: React.FC<GameCardProps> = ({ info }) => {
         >
           <p color='gray'>{howToPlay}</p>
         </CardContent>
-        <CardActions disableSpacing sx={{ mt: 'auto' }}>
-          {/* <IconButton aria-label='add to favorites'>
-            <FavoriteIcon />
-          </IconButton>
-          <IconButton aria-label='share'>
-            <ShareIcon />
-          </IconButton> */}
+
+        <CardActions disableSpacing sx={{ flexGrow: 1, alignItems: 'end' }}>
           <div>
             <Tooltip title='Tags'>
               <IconButton aria-label='tags'>
-                <LocalOfferIcon sx={{ mr: 1 }} />
+                <LocalOfferIcon />
               </IconButton>
             </Tooltip>
             {tagElements}
