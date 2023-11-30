@@ -4,8 +4,7 @@ import Drawer from '@mui/material/Drawer';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
-// import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
+// import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
@@ -15,8 +14,9 @@ import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import ClearAllIcon from '@mui/icons-material/ClearAll';
 import SearchIcon from '@mui/icons-material/Search';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Checkbox, InputAdornment, TextField, Tooltip } from '@mui/material';
+import Link from 'next/link';
 
 import { useAppContext } from '../pages/appContext';
 import { useRouter } from 'next/router';
@@ -55,16 +55,20 @@ const AppBar = styled(MuiAppBar, {
   }),
 }));
 
-const DrawerHeader = styled('div')(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
-  ...theme.mixins.toolbar,
-  justifyContent: 'flex-end',
-}));
+// const DrawerHeader = styled('div')(({ theme }) => ({
+//   display: 'flex',
+//   alignItems: 'center',
+//   padding: theme.spacing(0, 1),
+//   // necessary for content to be below app bar
+//   ...theme.mixins.toolbar,
+//   justifyContent: 'flex-end',
+// }));
 
-const Layout = ({ children }: any) => {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const {
     games,
     setGames,
@@ -199,7 +203,6 @@ const Layout = ({ children }: any) => {
       <div key={index} className='horizontalBoxes'>
         <Checkbox
           size='small'
-          // className='settingsCheckbox'
           value={index}
           checked={settingSet[index]}
           style={{ color: 'white' }}
@@ -225,7 +228,6 @@ const Layout = ({ children }: any) => {
       <div key={index} className='horizontalBoxes'>
         <Checkbox
           size='small'
-          // className='audienceCheckbox'
           style={{ color: 'white' }}
           value={index}
           checked={audienceSet[index]}
@@ -251,7 +253,6 @@ const Layout = ({ children }: any) => {
       <div key={index} className='horizontalBoxes'>
         <Checkbox
           size='small'
-          // className='groupsCheckbox'
           style={{ color: 'white' }}
           value={index}
           checked={groupSet[index]}
@@ -277,7 +278,6 @@ const Layout = ({ children }: any) => {
       <div key={index} className='horizontalBoxes'>
         <Checkbox
           size='small'
-          className='lengthCheckbox'
           value={index}
           style={{ color: 'white' }}
           checked={lengthSet[index]}
@@ -319,7 +319,6 @@ const Layout = ({ children }: any) => {
                   aria-label='open drawer'
                   onClick={handleDrawerOpen}
                   edge='start'
-                  // sx={{ ...(open && { display: 'none' }) }}
                 >
                   <Tooltip title='Filter & Search'>
                     <MenuIcon fontSize='large' style={{ color: 'white' }} />
@@ -339,11 +338,9 @@ const Layout = ({ children }: any) => {
             </div>
 
             <div id='title' style={{ flexGrow: 1 }}>
-              <h1
-              // onClick={() => navigate('/')}
-              >
-                playtabase
-              </h1>
+              <Link href={'/'} style={{ textDecoration: 'none' }}>
+                <h1>playtabase</h1>
+              </Link>
               <h2 color='white'>your game & activity database</h2>
             </div>
 
@@ -351,7 +348,6 @@ const Layout = ({ children }: any) => {
               <IconButton
                 color='default'
                 aria-label='open drawer'
-                // onClick={() => navigate('/create')}
                 onClick={() => {
                   router.push('/create');
                 }}
@@ -380,10 +376,9 @@ const Layout = ({ children }: any) => {
           open={open}
         >
           {/* <DrawerHeader 
-        // sx={{ height: 112 }}
-        ></DrawerHeader> */}
+      // sx={{ height: 112 }}
+      ></DrawerHeader> */}
 
-          <Divider />
           <div id='filter'>
             {/* Search Field */}
             <TextField
@@ -393,7 +388,6 @@ const Layout = ({ children }: any) => {
               fullWidth
               onChange={searchOnChange}
               onKeyPress={handleKeyPress}
-              style={{ marginTop: '5%' }}
               InputProps={{
                 style: {
                   color: 'white',
@@ -467,6 +461,4 @@ const Layout = ({ children }: any) => {
       </Box>
     </>
   );
-};
-
-export default Layout;
+}

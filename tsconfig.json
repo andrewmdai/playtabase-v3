@@ -24,7 +24,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "pages/api/editGame.js",
+    "pages/api/editgame.js",
     ".next/types/**/*.ts"
   ],
   "exclude": ["node_modules"]

@@ -3,8 +3,6 @@ import {
   CardHeader,
   IconButton,
   Tooltip,
-  Typography,
-  Divider,
   CardContent,
   CardActions,
   TextField,
@@ -12,8 +10,7 @@ import {
   Button,
   InputAdornment,
 } from '@mui/material';
-import React, { Component, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 // import EditIcon from '@mui/icons-material/Edit';
 // import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -27,12 +24,14 @@ import PeopleAltRoundedIcon from '@mui/icons-material/PeopleAltRounded';
 import BuildRoundedIcon from '@mui/icons-material/BuildRounded';
 import QueryBuilderRoundedIcon from '@mui/icons-material/QueryBuilderRounded';
 import { Chip } from '@mui/material';
+import { useRouter } from 'next/navigation';
 
-const GameCreator = props => {
-  const navigate = useNavigate();
-  const useInput = init => {
+const Create = (props: any) => {
+  const router = useRouter();
+
+  const useInput = (init: any) => {
     const [value, setValue] = useState(init);
-    const onChange = e => {
+    const onChange = (e: any) => {
       setValue(e.target.value);
     };
     return [value, onChange];
@@ -159,12 +158,12 @@ const GameCreator = props => {
         .catch(err =>
           console.log('CreateGame fetch /api/creategame: ERROR: ', err),
         );
-      navigate('/');
+      router.push('/');
     }
   };
 
   // Audience Block
-  const handleAudienceCheck = e => {
+  const handleAudienceCheck = (e: any) => {
     const idx = e.target.value;
     const newAudienceSet = audienceSet;
     if (newAudienceSet[idx]) newAudienceSet[idx] = false;
@@ -178,7 +177,7 @@ const GameCreator = props => {
         icon={
           <Checkbox
             size='small'
-            style={{ color: 'white' }}
+            style={{ color: 'white', marginRight: '-1.5em' }}
             value={index}
             onChange={handleAudienceCheck}
           />
@@ -186,12 +185,18 @@ const GameCreator = props => {
         key={audience + index}
         label={audience}
         id='chip'
+        sx={{
+          '& .MuiChip-label': {
+            fontSize: '1.1em',
+          },
+          my: 0.5,
+        }}
       />
     );
   });
 
   // Group Size Block
-  const handleGroupCheck = e => {
+  const handleGroupCheck = (e: any) => {
     const idx = e.target.value;
     const newGroupSet = groupSet;
     if (newGroupSet[idx]) newGroupSet[idx] = false;
@@ -205,7 +210,7 @@ const GameCreator = props => {
         icon={
           <Checkbox
             size='small'
-            style={{ color: 'white' }}
+            style={{ color: 'white', marginRight: '-1.5em' }}
             value={index}
             onChange={handleGroupCheck}
           />
@@ -213,12 +218,18 @@ const GameCreator = props => {
         key={group + index}
         label={group}
         id='chip'
+        sx={{
+          '& .MuiChip-label': {
+            fontSize: '1.1em',
+          },
+          my: 0.5,
+        }}
       />
     );
   });
 
   // Setup Time Block
-  const handleSetupTimeCheck = e => {
+  const handleSetupTimeCheck = (e: any) => {
     const idx = e.target.value;
     const newSetupTimeSet = setupTimeSet;
     if (newSetupTimeSet[idx]) newSetupTimeSet[idx] = false;
@@ -230,7 +241,7 @@ const GameCreator = props => {
       <div key={index} className='horizontalBoxes'>
         <Checkbox
           size='small'
-          className='setupTimeCheckbox'
+          // className='setupTimeCheckbox'
           value={index}
           onChange={handleSetupTimeCheck}
         />
@@ -240,7 +251,7 @@ const GameCreator = props => {
   });
 
   // Length Block
-  const handleLengthCheck = e => {
+  const handleLengthCheck = (e: any) => {
     const idx = e.target.value;
     const newLengthSet = lengthSet;
     if (newLengthSet[idx]) newLengthSet[idx] = false;
@@ -252,7 +263,7 @@ const GameCreator = props => {
       <div key={index} className='horizontalBoxes'>
         <Checkbox
           size='small'
-          className='lengthCheckbox'
+          // className='lengthCheckbox'
           value={index}
           onChange={handleLengthCheck}
         />
@@ -262,7 +273,7 @@ const GameCreator = props => {
   });
 
   // Setting Block
-  const handleSettingCheck = e => {
+  const handleSettingCheck = (e: any) => {
     const idx = e.target.value;
     const newSettingSet = settingSet;
     if (newSettingSet[idx]) newSettingSet[idx] = false;
@@ -278,7 +289,6 @@ const GameCreator = props => {
           icon={
             <Checkbox
               size='small'
-              className='settingsCheckbox'
               value={index}
               checked={settingSet[index]}
               style={{ color: 'white' }}
@@ -289,11 +299,15 @@ const GameCreator = props => {
           label={
             setting === 'in-person' ? (
               <Tooltip title='In-Person'>
-                <PeopleAltRoundedIcon sx={{ mt: 0.25 }} />
+                <PeopleAltRoundedIcon
+                  sx={{ verticalAlign: 'middle', marginLeft: '-0.25em' }}
+                />
               </Tooltip>
             ) : (
               <Tooltip title='Virtual'>
-                <PhonelinkIcon sx={{ mt: 0.25 }} />
+                <PhonelinkIcon
+                  sx={{ verticalAlign: 'middle', marginLeft: '-0.25em' }}
+                />
               </Tooltip>
             )
           }
@@ -304,24 +318,24 @@ const GameCreator = props => {
   });
 
   return (
-    <div className='createGameCardContainer' style={{ marginRight: 35 }}>
+    <div className='createGameCardContainer'>
       <Card
-        className='createGameCard'
         variant='outlined'
         sx={{
           borderRadius: '15px',
           boxShadow: 5,
           margin: 2,
+          padding: 2,
           height: '100%',
           display: 'flex',
           flexDirection: 'column',
+          flexGrow: 1,
         }}
       >
         <CardHeader
           action={
             <div className='cardTimes'>
-              <h3>Setting (Choose One): </h3>{' '}
-              {settingsCheckboxes}
+              <h3>Setting (Choose One):&nbsp;&nbsp;</h3> {settingsCheckboxes}
               {/* <IconButton aria-label='settings'>
                 <MoreVertIcon />
               </IconButton> */}
@@ -332,126 +346,117 @@ const GameCreator = props => {
               </IconButton> */}
               <IconButton aria-label='close'>
                 <Tooltip title='Close'>
-                  <CloseIcon onClick={() => navigate('/')} />
+                  <CloseIcon onClick={() => router.push('/')} />
                 </Tooltip>
               </IconButton>
             </div>
           }
-          title=<strong>Create a Game</strong>
-          subheader={
+          titleTypographyProps={{
+            fontFamily: 'Poppins',
+            fontSize: '2em',
+            fontWeight: '700',
+          }}
+          title=<a>Create a Game</a>
+        />
+        <CardContent>
+          <div>
             <div>
               <div>
-                <div>
-                  <TextField
-                    id='textInput'
-                    label='Game Name'
-                    variant='outlined'
-                    size='small'
-                    value={name}
-                    onChange={nameOnChange}
-                    required
-                    sx={{ width: 850, mb: 1, mt: 1 }}
-                  />
-                </div>
-                <div className='cardTimes'>
-                  <Tooltip title='Set-Up Time Required'>
-                    <BuildRoundedIcon sx={{ fontSize: 20, mr: 1 }} />
-                  </Tooltip>{' '}
-                  <h3 color='black'> Set-up Time Required (Choose One): </h3>
-                  <div id='setupTimes' className='cardTimes'>
-                    {setupCheckboxes}
-                  </div>
-                </div>
-                <div className='cardTimes'>
-                  <Tooltip title='Time Required'>
-                    <QueryBuilderRoundedIcon sx={{ fontSize: 20, mr: 1 }} />
-                  </Tooltip>
-                  <h3> Time Required (Choose One): </h3>
-                  <div id='lengths' className='cardTimes'>
-                    {lengthCheckboxes}
-                  </div>
-                </div>
-              </div>
-              <Typography variant='body2' color='text.secondary'>
                 <TextField
                   id='textInput'
-                  label='Supplies (i.e. rocks, papers, scissors)'
+                  label='Game Name'
                   variant='outlined'
                   size='small'
-                  value={supplies}
-                  onChange={suppliesOnChange}
-                  sx={{ width: 850, my: 1 }}
+                  fullWidth
+                  value={name}
+                  onChange={nameOnChange}
+                  required
+                  sx={{ marginBottom: 2 }}
                 />
-              </Typography>
-              <Typography variant='body2' color='text.secondary'>
-                <TextField
-                  id='textInput'
-                  label='Set Up'
-                  variant='outlined'
-                  size='small'
-                  value={setup}
-                  onChange={setupOnChange}
-                  sx={{ width: 850, my: 1 }}
-                />
-              </Typography>
-              <div className='horizontalBoxes'>
-                <Tooltip title='Audience'>
-                  <FaceIcon sx={{ fontSize: 20, mr: 1 }} />
-                </Tooltip>{' '}
-                <h3>Audience: </h3>
-                {audienceCheckboxes}
               </div>
-              <div className='horizontalBoxes'>
-                <Tooltip title='Group Size'>
-                  <Groups2RoundedIcon sx={{ fontSize: 20, mr: 1 }} />
+              <div className='cardTimes'>
+                <Tooltip title='Set-Up Time Required'>
+                  <BuildRoundedIcon sx={{ fontSize: 20, mr: 1 }} />
                 </Tooltip>{' '}
-                <h3>
-                  Group Size:{' '}
-                </h3>
-                {groupsCheckboxes}
+                <h3 color='black'> Set-up Time Required (Choose One): </h3>
+                <div className='cardTimes'>{setupCheckboxes}</div>
+              </div>
+              <div className='cardTimes'>
+                <Tooltip title='Time Required'>
+                  <QueryBuilderRoundedIcon sx={{ fontSize: 20, mr: 1 }} />
+                </Tooltip>
+                <h3> Time Required (Choose One): </h3>
+                <div id='lengths' className='cardTimes'>
+                  {lengthCheckboxes}
+                </div>
               </div>
             </div>
-          }
-        />
-        <Divider />
-        <CardContent>
-          <Typography variant='body2' color='text.secondary'>
-            <TextField
-              id='outlined-multiline-flexible'
-              label='How To Play'
-              multiline
-              minRows={8}
-              value={howto}
-              onChange={howtoOnChange}
-              fullWidth
-              required
-            />
-          </Typography>
-          <div style={{ marginTop: 20 }}>
-            {/* <IconButton aria-label='tags'>
-              <LocalOfferIcon />
-            </IconButton> */}
             <TextField
               id='textInput'
-              label='Tags (i.e. fun, active, casual)'
+              label='Supplies (i.e. rocks, papers, scissors)'
               variant='outlined'
               size='small'
-              value={tagsInput}
-              onChange={tagsOnChange}
-              sx={{ width: 850 }}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position='start'>
-                    <IconButton>
-                      <LocalOfferIcon
-                        sx={{ ml: -1.5, mr: -1.5, fontSize: 17 }}
-                      />
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
+              fullWidth
+              value={supplies}
+              onChange={suppliesOnChange}
+              sx={{ my: 1 }}
             />
+            <TextField
+              id='textInput'
+              label='Set Up'
+              variant='outlined'
+              size='small'
+              fullWidth
+              value={setup}
+              onChange={setupOnChange}
+              sx={{ my: 1 }}
+            />
+            <div className='cardTimes'>
+              <Tooltip title='Audience'>
+                <FaceIcon sx={{ fontSize: 20, mr: 1 }} />
+              </Tooltip>{' '}
+              <h3>Audience:&nbsp;&nbsp;&nbsp;&nbsp;</h3>
+              {audienceCheckboxes}
+            </div>
+            <div className='cardTimes'>
+              <Tooltip title='Group Size'>
+                <Groups2RoundedIcon sx={{ fontSize: 20, mr: 1 }} />
+              </Tooltip>{' '}
+              <h3>Group Size:&nbsp;&nbsp;&nbsp;&nbsp;</h3>
+              {groupsCheckboxes}
+            </div>
           </div>
+
+          <TextField
+            id='outlined-multiline-flexible'
+            label='How To Play'
+            multiline
+            minRows={3}
+            value={howto}
+            onChange={howtoOnChange}
+            fullWidth
+            required
+            sx={{ my: 1 }}
+          />
+          <TextField
+            id='textInput'
+            label='Tags (i.e. fun, active, casual)'
+            variant='outlined'
+            size='small'
+            fullWidth
+            value={tagsInput}
+            onChange={tagsOnChange}
+            sx={{ my: 1 }}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position='start'>
+                  <IconButton>
+                    <LocalOfferIcon sx={{ ml: -1.5, mr: -1.5, fontSize: 17 }} />
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+          />
         </CardContent>
         <CardActions disableSpacing sx={{ mt: 'auto' }}>
           {/* <IconButton aria-label='add to favorites'>
@@ -478,4 +483,4 @@ const GameCreator = props => {
   );
 };
 
-export default GameCreator;
+export default Create;

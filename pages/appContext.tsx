@@ -38,24 +38,36 @@ interface AppProviderProps {
   children: ReactNode;
 }
 
+// Custom hook for capturing user input
+export const useInput = (init: any) => {
+  const [value, setValue] = useState(init);
+  const onChange = (e: any) => {
+    setValue(e.target.value);
+  };
+  const reset = () => {
+    setValue(init);
+  };
+  return [value, onChange, reset];
+};
+
 export const AppProvider = ({ children }: AppProviderProps) => {
   const [games, setGames] = useState<GameType[]>([]); // Array of Games & Activities from the Database
   const [fetchedGames, setFetchedGames] = useState(false); // Boolean - Have the games been loaded from the Database?
 
-  // Custom hook for capturing user input
-  const useInput = (init: any) => {
-    const [value, setValue] = useState(init);
-    const onChange = (e: any) => {
-      setValue(e.target.value);
-    };
-    const reset = () => {
-      setValue(init);
-    };
-    return [value, onChange, reset];
-  };
+  // // Custom hook for capturing user input
+  // const useInput = (init: any) => {
+  //   const [value, setValue] = useState(init);
+  //   const onChange = (e: any) => {
+  //     setValue(e.target.value);
+  //   };
+  //   const reset = () => {
+  //     setValue(init);
+  //   };
+  //   return [value, onChange, reset];
+  // };
 
   // Filter States (Correlate with Set Arrays)
-  const [search, searchOnChange, searchReset] = useInput('');
+  const [search, searchOnChange, searchReset ] = useInput('');
   const [settingSet, setSettingSet] = useState([false, false]);
   const [audienceSet, setAudienceSet] = useState([false, false, false, false]);
   const [groupSet, setGroupSet] = useState([false, false, false]);

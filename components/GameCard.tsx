@@ -15,6 +15,13 @@ import BuildRoundedIcon from '@mui/icons-material/BuildRounded';
 import QueryBuilderRoundedIcon from '@mui/icons-material/QueryBuilderRounded';
 import { Chip, Divider, Tooltip } from '@mui/material';
 import Link from 'next/link';
+import { Poppins } from 'next/font/google';
+
+const poppins = Poppins({
+  subsets: ['latin'],
+  display: 'swap',
+  weight: ['600'],
+});
 
 type Info = {
   _id: string;
@@ -51,18 +58,14 @@ const GameCard: React.FC<GameCardProps> = ({ info }) => {
     featured,
   } = info;
 
-  // const navigate = useNavigate();
-
   const ageElements = forAges.map((age: string, i: number) => {
     return (
       <Chip
         size='small'
         icon={<FaceIcon color='disabled' />}
         key={age + i}
-        // label={getAgeLabel(age)}
         label={age}
         id='chip'
-        // sx={{ mt: 0.5, mr: 0.5 }}
       />
     );
   });
@@ -83,25 +86,15 @@ const GameCard: React.FC<GameCardProps> = ({ info }) => {
         size='small'
         icon={<Groups2RoundedIcon color='disabled' />}
         key={group + i}
-        // label={group}
         label={getGroupLabel(group)}
         id='chip'
-        // sx={{ mt: 0.5, mr: 0.5 }}
       />
     );
   });
 
   const tagElements = tags.map((tag: string, i: number) => {
     if (tag) {
-      return (
-        <Chip
-          size='small'
-          key={tag + i}
-          label={tag}
-          id='chip'
-          // sx={{ mr: 0.5 }}
-        />
-      );
+      return <Chip size='small' key={tag + i} label={tag} id='chip' />;
     }
   });
 
@@ -113,11 +106,10 @@ const GameCard: React.FC<GameCardProps> = ({ info }) => {
           borderRadius: '15px',
           boxShadow: 5,
           margin: 2,
-          // minWidth: 400,
-          maxHeight: 600,
           height: '100%',
           display: 'flex',
           flexDirection: 'column',
+          maxHeight: 600,
         }}
       >
         <CardHeader
@@ -140,9 +132,13 @@ const GameCard: React.FC<GameCardProps> = ({ info }) => {
             </IconButton> */}
             </div>
           }
-          title={<Link href={`/games/${_id}`}>{name}</Link>}
+          title={
+            <Link href={`/${_id}`} className={poppins.className}>
+              {name}
+            </Link>
+          }
           subheader={
-            <div>
+            <div >
               <div className='cardTimes'>
                 <Tooltip title='Set-Up Time Required'>
                   <BuildRoundedIcon sx={{ fontSize: 15 }} />
@@ -157,11 +153,7 @@ const GameCard: React.FC<GameCardProps> = ({ info }) => {
                 <p>Supplies: {!suppliesReq.length ? 'none' : suppliesReq}</p>
                 <p>Setup: {!setup ? 'none' : setup}</p>
               </div>
-              {/* <Divider textAlign="left" sx={{fontSize: '.6em', color: 'gray'}}>Audience</Divider> */}
-
               <div>{ageElements}</div>
-              {/* <Divider textAlign="left" sx={{fontSize: '.6em', color: 'gray'}}>Group Size</Divider> */}
-
               <div>{groupElements}</div>
             </div>
           }
@@ -172,7 +164,6 @@ const GameCard: React.FC<GameCardProps> = ({ info }) => {
         <CardContent
           sx={{
             color: 'gray',
-            // maxHeight: 200,
             overflow: 'hidden',
             textOverflow: 'ellipsis',
           }}

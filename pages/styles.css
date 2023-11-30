@@ -37,7 +37,6 @@ h2 {
   font-size: 1.5em;
   font-weight: 400;
   letter-spacing: -0.05em;
-  /* color: white; */
   padding: 0px !important;
   margin: 0px !important;
 }
@@ -52,7 +51,6 @@ h3 {
   font-weight: 700;
   letter-spacing: -0.05em;
   line-height: 2.5em;
-  /* color: white; */
   padding: 0px !important;
   margin: 0px !important;
 }
@@ -61,7 +59,6 @@ h4 {
   font-size: 0.8em;
   font-weight: 400;
   letter-spacing: -0.05em;
-  /* color: white; */
   padding: 0px !important;
   margin: 0px !important;
 }
@@ -70,9 +67,12 @@ h5 {
   font-size: 1em;
   font-weight: 400;
   letter-spacing: -0.05em;
-  /* color: white; */
   padding: 0px !important;
   margin: 0px !important;
+}
+
+h6 {
+    font-weight: 600;
 }
 
 p {
@@ -86,7 +86,7 @@ p {
 #filter {
   background-color: #757575;
   margin-top: 12.4vh;
-  padding: 0% 5% 0% 5%;
+  padding: 9% 8% 4% 8%;
   color: rgb(255, 255, 255);
   height: inherit;
 }
@@ -105,7 +105,7 @@ p {
 }
 
 .cardSetup {
-  margin: 2% 0% 2% 0%;
+  margin: 0.5em 0em 0.5em 0em;
   color: gray;
 }
 
@@ -139,19 +139,6 @@ p {
   transform: scale(1.025);
 }
 
-/* 
-#card {
-  background-color: white;
-  font-family: 'Rubik', sans-serif;
-  height: 400px;
-  margin: 30px;
-  border-radius: 10px;
-  padding: 20px;
-  min-width: 675px;
-  box-shadow: 10px 10px 20px gray;
-  transition-duration: 0.5s;
-} */
-
 .detailCard {
   width: 100%;
 }
@@ -162,23 +149,22 @@ p {
   margin: 0 !important;
 }
 
-.createGameCard {
-  min-width: none;
-  border-radius: 15px;
-  flex-grow: 1;
-  margin: 5%;
-}
-
 #chip {
   background-color: #2196f3;
   color: rgb(255, 255, 255);
   font-size: 0.65em;
-  margin-right: 5px;
+  margin: 0em 0.5em 0.5em 0em;
 }
 
-/* #gameContainer {
-  display: flex;
-} */
+#createSubmit {
+  position: absolute;
+  bottom: 1;
+  margin-bottom: 4em;
+}
+
+.poppins.className:hover {
+  text-decoration: underline;
+}
 
 /* @media screen and (max-width: 1000px) {
   .gameCard {

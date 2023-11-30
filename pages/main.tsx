@@ -1,11 +1,16 @@
 import { useEffect } from 'react';
-import GameCard from '../../components/GameCard';
-import { useAppContext } from '../../pages/appContext';
-// import GameDetail from '../../components/GameDetail';
-// import GameCreator from '../../components/GameCreator';
+import GameCard from '../components/GameCard';
+import { useAppContext } from './appContext';
+import { useRouter } from 'next/router';
+import GameDetail from './[id]';
+
+import Create from './create';
 
 export default function Main() {
   const { games, setGames, fetchedGames, setFetchedGames } = useAppContext();
+
+  const router = useRouter();
+  const currentPath = router.pathname;
 
   // Fetching Games Array on Mount
   useEffect(() => {
@@ -30,11 +35,11 @@ export default function Main() {
     <GameCard key={i} info={game} />
   ));
 
-  return !fetchedGames ? (
+  return currentPath === '/' && !fetchedGames ? (
     <>
       <h1>Loading data, please wait...</h1>
     </>
-  ) : (
-    <div className='gameCard'>{gameElements}</div>
-  );
+  ) : currentPath === '/' && fetchedGames ? (<div className='gameCard'>{gameElements}</div>
+  ) : currentPath === "/create" ? <Create /> 
+    : currentPath === "/[id]" ? <GameDetail games={games} /> : null
 }
