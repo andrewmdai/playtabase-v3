@@ -315,6 +315,7 @@ const Create = (props: any) => {
   });
 
   return (
+    <div className='gameCardContainer2'>
     <Card
       variant='outlined'
       sx={{
@@ -458,6 +459,7 @@ const Create = (props: any) => {
         </Button>
       </CardActions>
     </Card>
+    </div>
   );
 };
 

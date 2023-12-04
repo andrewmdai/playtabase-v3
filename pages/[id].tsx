@@ -21,7 +21,7 @@ import {
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import EditIcon from '@mui/icons-material/Edit';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { Poppins } from 'next/font/google';
 
@@ -31,30 +31,54 @@ const poppins = Poppins({
   weight: ['600'],
 });
 
-export default function GameDetail({ games }: any) {
-  
-  const router = useRouter();
+const useInput = (init: any) => {
+  const [value, setValue] = useState(init);
+  const onChange = (e: any) => {
+    setValue(e.target.value);
+  };
+  return [value, onChange];
+};
 
+export default function GameDetail({ games }: any) {
+  const router = useRouter();
   const { id } = router.query;
 
-  let game = null;
+  const [game, setGame] = useState(games?.find((game: any) => game._id === id));
+  const [editing, setEditing] = useState(false);
+  const [editName, setEditName] = useInput(game?.name || '');
 
-  if (!games) {
-    fetch(`/api/getgame?id=${id}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then(resp => resp.json())
-      .then(data => {
-        console.log(data);
-        game = data.data;
-        router.push(`/${game._id}`);
-      })
-      .catch(err => console.log('GetGame fetch /api/getgame: ERROR: ', err));
-  } else {
-    game = games.find((game: any) => game._id === id);
+  // Fetching Game Detail on Mount
+  useEffect(() => {
+    if (!games) {
+      const fetchData = async () => {
+        try {
+          const response = await fetch(`/api/getgame?id=${id}`, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          });
+
+          if (!response.ok) {
+            throw new Error('Failed to fetch data');
+          }
+
+          const data = await response.json();
+          console.log(data.data);
+          setGame(data.data);
+        } catch (error) {
+          console.error('Error fetching data: ', error);
+        }
+      };
+      fetchData();
+    } else {
+      const foundGame = games.find((game: any) => game._id === id);
+      setGame(foundGame);
+    }
+  }, [games, id]);
+
+  if (!game) {
+    return <div>Loading...</div>;
   }
 
   const {
@@ -71,16 +95,8 @@ export default function GameDetail({ games }: any) {
     featured,
   } = game;
 
-  const useInput = (init: any) => {
-    const [value, setValue] = useState(init);
-    const onChange = (e: any) => {
-      setValue(e.target.value);
-    };
-    return [value, onChange];
-  };
-
-  const [editing, setEditing] = useState(false);
-  const [editName, setEditName] = useInput(name);
+  // const [editing, setEditing] = useState(false);
+  // const [editName, setEditName] = useInput(name);
 
   // Audience State Handler
   const audiences = ['Children', 'Teenagers', 'Young Adults', 'Adults'];
@@ -542,19 +558,19 @@ export default function GameDetail({ games }: any) {
                     </Tooltip>{' '}
                     {timeReq}
                   </div>
-                  <div className='cardSetup'>
-                    <p>
-                      Supplies: {!suppliesReq.length ? 'none' : suppliesReq}
-                    </p>
-                    <p>Setup: {!setup ? 'none' : setup}</p>
-                  </div>
-                  <div>{ageElements}</div>
-                  <div>{groupElements}</div>
                 </div>
               }
             />
+            <div className='cardContent'>
+              <div className='cardSetup'>
+                <p>Supplies: {!suppliesReq.length ? 'none' : suppliesReq}</p>
+                <p>Setup: {!setup ? 'none' : setup}</p>
+              </div>
+              <div>{ageElements}</div>
+              <div>{groupElements}</div>
+            </div>
 
-            <Divider sx={{ marginBottom: '1em'}}/>
+            <Divider sx={{ my: '1em' }} />
 
             <CardContent
               sx={{
@@ -579,9 +595,9 @@ export default function GameDetail({ games }: any) {
         </div>
       ) : (
         // -------------------------- EDITING VIEW --------------------------
-        <div>
+        <div className='gameCardContainer2'>
           <Card
-            className='createGameCardContainer'
+            // className='createGameCardContainer'
             variant='outlined'
             sx={{
               borderRadius: '15px',

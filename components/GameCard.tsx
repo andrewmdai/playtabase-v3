@@ -143,28 +143,29 @@ const GameCard: React.FC<GameCardProps> = ({ info }) => {
             </Link>
           }
           subheader={
-            <div>
-              <div className='cardTimes'>
-                <Tooltip title='Set-Up Time Required'>
-                  <BuildRoundedIcon sx={{ fontSize: 15 }} />
-                </Tooltip>{' '}
-                {setupTimeReq}{' '}
-                <Tooltip title='Time Required'>
-                  <QueryBuilderRoundedIcon sx={{ fontSize: 15, mx: 0.5 }} />
-                </Tooltip>{' '}
-                {timeReq}
-              </div>
-              <div className='cardSetup'>
-                <p>Supplies: {!suppliesReq.length ? 'none' : suppliesReq}</p>
-                <p>Setup: {!setup ? 'none' : setup}</p>
-              </div>
-              <div>{ageElements}</div>
-              <div>{groupElements}</div>
+            //   <div>
+            <div className='cardTimes'>
+              <Tooltip title='Set-Up Time Required'>
+                <BuildRoundedIcon sx={{ fontSize: 15 }} />
+              </Tooltip>{' '}
+              {setupTimeReq}{' '}
+              <Tooltip title='Time Required'>
+                <QueryBuilderRoundedIcon sx={{ fontSize: 15, mx: 0.5 }} />
+              </Tooltip>{' '}
+              {timeReq}
             </div>
           }
         />
+        <div className='cardContent'>
+          <div className='cardSetup'>
+            <p>Supplies: {!suppliesReq.length ? 'none' : suppliesReq}</p>
+            <p>Setup: {!setup ? 'none' : setup}</p>
+          </div>
+          <div>{ageElements}</div>
+          <div>{groupElements}</div>
+        </div>
 
-        <Divider sx={{ marginBottom: '1em'}}/>
+        <Divider sx={{ my: '1em' }} />
 
         <CardContent
           sx={{
