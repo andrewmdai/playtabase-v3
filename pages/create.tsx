@@ -113,7 +113,7 @@ const Create = (props: any) => {
       const suppliesReq = supplies.split(',');
 
       const settingArray = [];
-      for (const idx of settingSet) {
+      for (const idx in settingSet) {
         settingArray.push(settings[idx]);
       }
       const setting = settingArray[0];
@@ -259,7 +259,6 @@ const Create = (props: any) => {
       <div key={index} className='horizontalBoxes'>
         <Checkbox
           size='small'
-          // className='lengthCheckbox'
           value={index}
           onChange={handleLengthCheck}
         />

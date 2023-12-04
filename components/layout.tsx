@@ -13,11 +13,10 @@ import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import ClearAllIcon from '@mui/icons-material/ClearAll';
 import SearchIcon from '@mui/icons-material/Search';
-import { useState } from 'react';
 import { Checkbox, InputAdornment, TextField, Tooltip } from '@mui/material';
-import Link from 'next/link';
-
+import { useState } from 'react';
 import { useAppContext } from '../pages/appContext';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 const drawerWidth = 300;
@@ -54,24 +53,15 @@ const AppBar = styled(MuiAppBar, {
   }),
 }));
 
-// const DrawerHeader = styled('div')(({ theme }) => ({
-//   display: 'flex',
-//   alignItems: 'center',
-//   padding: theme.spacing(0, 1),
-//   // necessary for content to be below app bar
-//   ...theme.mixins.toolbar,
-//   justifyContent: 'flex-end',
-// }));
-
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   const {
-    games,
+    // games,
     setGames,
-    fetchedGames,
+    // fetchedGames,
     setFetchedGames,
     search,
     searchOnChange,
@@ -376,10 +366,6 @@ export default function RootLayout({
           anchor='left'
           open={open}
         >
-          {/* <DrawerHeader 
-          // sx={{ height: 112 }}
-          ></DrawerHeader> */}
-
           <div id='filter'>
             {/* Search Field */}
             <TextField

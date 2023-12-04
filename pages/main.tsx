@@ -1,14 +1,12 @@
 import { useEffect } from 'react';
-import GameCard from '../components/GameCard';
-import { useAppContext } from './appContext';
 import { useRouter } from 'next/router';
-import GameDetail from './[id]';
-
+import { useAppContext } from './appContext';
 import Create from './create';
+import GameCard from '../components/GameCard';
+import GameDetail from './[id]';
 
 export default function Main() {
   const { games, setGames, fetchedGames, setFetchedGames } = useAppContext();
-
   const router = useRouter();
   const currentPath = router.pathname;
 

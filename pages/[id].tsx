@@ -1,14 +1,14 @@
 import Card from '@mui/material/Card';
+import FaceIcon from '@mui/icons-material/Face';
 import CardHeader from '@mui/material/CardHeader';
+import IconButton from '@mui/material/IconButton';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
-import IconButton from '@mui/material/IconButton';
-import FaceIcon from '@mui/icons-material/Face';
-import Groups2RoundedIcon from '@mui/icons-material/Groups2Rounded';
-import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import PhonelinkIcon from '@mui/icons-material/Phonelink';
-import PeopleAltRoundedIcon from '@mui/icons-material/PeopleAltRounded';
+import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import BuildRoundedIcon from '@mui/icons-material/BuildRounded';
+import Groups2RoundedIcon from '@mui/icons-material/Groups2Rounded';
+import PeopleAltRoundedIcon from '@mui/icons-material/PeopleAltRounded';
 import QueryBuilderRoundedIcon from '@mui/icons-material/QueryBuilderRounded';
 import {
   Button,
@@ -19,8 +19,8 @@ import {
   TextField,
   Tooltip,
 } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
 import EditIcon from '@mui/icons-material/Edit';
+import CloseIcon from '@mui/icons-material/Close';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { Poppins } from 'next/font/google';
@@ -92,7 +92,7 @@ export default function GameDetail({ games }: any) {
     setup,
     howToPlay,
     tags,
-    featured,
+    // featured,
   } = game;
 
   // const [editing, setEditing] = useState(false);
@@ -285,8 +285,6 @@ export default function GameDetail({ games }: any) {
       );
   };
 
-  // ___________________________________________________________________________________________-
-
   const ageElements = forAges.map((age: string, i: number) => {
     return (
       <Chip
@@ -336,8 +334,6 @@ export default function GameDetail({ games }: any) {
       />
     );
   });
-
-  // -------------------------------------------------------------------------------------------
 
   // Audience Block
   const handleAudienceCheck = (e: any) => {
@@ -503,7 +499,7 @@ export default function GameDetail({ games }: any) {
   return (
     <div>
       {!editing ? (
-        // -------------------------- CARD VIEW --------------------------
+        // ------------------------------------- CARD VIEW -------------------------------------
         <div className='gameCardContainer'>
           <Card
             className='detailCard'
@@ -594,10 +590,9 @@ export default function GameDetail({ games }: any) {
           </Card>
         </div>
       ) : (
-        // -------------------------- EDITING VIEW --------------------------
+        // --------------------------------- EDITING VIEW ---------------------------------
         <div className='gameCardContainer2'>
           <Card
-            // className='createGameCardContainer'
             variant='outlined'
             sx={{
               borderRadius: '15px',
