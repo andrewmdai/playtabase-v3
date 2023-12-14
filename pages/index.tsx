@@ -1,10 +1,8 @@
-// import Head from 'next/head';
+import Main from './main';
+import Layout from '../components/layout';
+import { AppProvider } from './appContext';
 import clientPromise from '../lib/mongodb';
 import type { InferGetServerSidePropsType, GetServerSideProps } from 'next';
-
-import { AppProvider } from './appContext';
-import Layout from '../components/layout';
-import Main from './main';
 
 type ConnectionStatus = {
   isConnected: boolean;

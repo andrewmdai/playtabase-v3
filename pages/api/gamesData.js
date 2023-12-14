@@ -8,7 +8,7 @@ export default async (req, res) => {
     const clues = await db.collection('games').find({}).toArray();
 
     res.json(clues);
-  } catch (e) {
-    console.error(e);
+  } catch (error) {
+    console.error(error);
   }
 };

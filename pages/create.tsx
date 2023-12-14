@@ -10,17 +10,17 @@ import {
   Button,
   InputAdornment,
 } from '@mui/material';
-import React, { useState } from 'react';
-import CloseIcon from '@mui/icons-material/Close';
-import FaceIcon from '@mui/icons-material/Face';
-import Groups2RoundedIcon from '@mui/icons-material/Groups2Rounded';
-import LocalOfferIcon from '@mui/icons-material/LocalOffer';
-import PhonelinkIcon from '@mui/icons-material/Phonelink';
-import PeopleAltRoundedIcon from '@mui/icons-material/PeopleAltRounded';
-import BuildRoundedIcon from '@mui/icons-material/BuildRounded';
-import QueryBuilderRoundedIcon from '@mui/icons-material/QueryBuilderRounded';
 import { Chip } from '@mui/material';
+import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import FaceIcon from '@mui/icons-material/Face';
+import CloseIcon from '@mui/icons-material/Close';
+import PhonelinkIcon from '@mui/icons-material/Phonelink';
+import LocalOfferIcon from '@mui/icons-material/LocalOffer';
+import BuildRoundedIcon from '@mui/icons-material/BuildRounded';
+import Groups2RoundedIcon from '@mui/icons-material/Groups2Rounded';
+import PeopleAltRoundedIcon from '@mui/icons-material/PeopleAltRounded';
+import QueryBuilderRoundedIcon from '@mui/icons-material/QueryBuilderRounded';
 
 const Create = (props: any) => {
   const router = useRouter();
@@ -307,7 +307,6 @@ const Create = (props: any) => {
             )
           }
           id='createChip'
-          // sx = {{ margin: '100px'}}
         />
       </div>
     );

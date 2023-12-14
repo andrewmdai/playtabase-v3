@@ -1,9 +1,9 @@
+import Create from './create';
+import GameDetail from './[id]';
+import GameCard from '../components/GameCard';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useAppContext } from './appContext';
-import Create from './create';
-import GameCard from '../components/GameCard';
-import GameDetail from './[id]';
 
 export default function Main() {
   const { games, setGames, fetchedGames, setFetchedGames } = useAppContext();

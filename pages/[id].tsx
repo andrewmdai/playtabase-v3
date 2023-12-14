@@ -1,5 +1,19 @@
+import {
+  Button,
+  Checkbox,
+  Chip,
+  Divider,
+  InputAdornment,
+  TextField,
+  Tooltip,
+} from '@mui/material';
 import Card from '@mui/material/Card';
+import { useRouter } from 'next/router';
+import { Poppins } from 'next/font/google';
+import { useState, useEffect } from 'react';
+import EditIcon from '@mui/icons-material/Edit';
 import FaceIcon from '@mui/icons-material/Face';
+import CloseIcon from '@mui/icons-material/Close';
 import CardHeader from '@mui/material/CardHeader';
 import IconButton from '@mui/material/IconButton';
 import CardContent from '@mui/material/CardContent';
@@ -10,20 +24,6 @@ import BuildRoundedIcon from '@mui/icons-material/BuildRounded';
 import Groups2RoundedIcon from '@mui/icons-material/Groups2Rounded';
 import PeopleAltRoundedIcon from '@mui/icons-material/PeopleAltRounded';
 import QueryBuilderRoundedIcon from '@mui/icons-material/QueryBuilderRounded';
-import {
-  Button,
-  Checkbox,
-  Chip,
-  Divider,
-  InputAdornment,
-  TextField,
-  Tooltip,
-} from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
-import CloseIcon from '@mui/icons-material/Close';
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
-import { Poppins } from 'next/font/google';
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -622,7 +622,7 @@ export default function GameDetail({ games }: any) {
                 fontSize: '2em',
                 fontWeight: '700',
               }}
-              title=<a>Edit Game</a>
+              title={<a>Edit Game</a>}
             />
             <CardContent>
               <div>

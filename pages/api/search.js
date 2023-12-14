@@ -12,8 +12,8 @@ export default async (req, res) => {
       .toArray();
     console.log('Search Results: ', data);
     return res.status(200).json(data);
-  } catch (err) {
-    console.error('There was an error getting database data', err);
+  } catch (error) {
+    console.error('There was an error getting database data', error);
     return ['This is not the data you are looking for'];
   }
 };

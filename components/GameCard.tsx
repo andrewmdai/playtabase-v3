@@ -1,18 +1,18 @@
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
-import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
-import IconButton from '@mui/material/IconButton';
-import FaceIcon from '@mui/icons-material/Face';
-import Groups2RoundedIcon from '@mui/icons-material/Groups2Rounded';
-import LocalOfferIcon from '@mui/icons-material/LocalOffer';
-import PhonelinkIcon from '@mui/icons-material/Phonelink';
-import PeopleAltRoundedIcon from '@mui/icons-material/PeopleAltRounded';
-import BuildRoundedIcon from '@mui/icons-material/BuildRounded';
-import QueryBuilderRoundedIcon from '@mui/icons-material/QueryBuilderRounded';
-import { Chip, Divider, Tooltip } from '@mui/material';
 import Link from 'next/link';
+import Card from '@mui/material/Card';
 import { Poppins } from 'next/font/google';
+import FaceIcon from '@mui/icons-material/Face';
+import IconButton from '@mui/material/IconButton';
+import CardHeader from '@mui/material/CardHeader';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import { Chip, Divider, Tooltip } from '@mui/material';
+import PhonelinkIcon from '@mui/icons-material/Phonelink';
+import LocalOfferIcon from '@mui/icons-material/LocalOffer';
+import BuildRoundedIcon from '@mui/icons-material/BuildRounded';
+import Groups2RoundedIcon from '@mui/icons-material/Groups2Rounded';
+import PeopleAltRoundedIcon from '@mui/icons-material/PeopleAltRounded';
+import QueryBuilderRoundedIcon from '@mui/icons-material/QueryBuilderRounded';
 
 const poppins = Poppins({
   subsets: ['latin'],

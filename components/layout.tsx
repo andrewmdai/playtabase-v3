@@ -1,23 +1,23 @@
-import { styled, useTheme } from '@mui/material/styles';
+import Link from 'next/link';
+import { useState } from 'react';
 import Box from '@mui/material/Box';
+import { useRouter } from 'next/router';
+import Button from '@mui/material/Button';
 import Drawer from '@mui/material/Drawer';
-import CssBaseline from '@mui/material/CssBaseline';
-import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
+import IconButton from '@mui/material/IconButton';
+import CssBaseline from '@mui/material/CssBaseline';
+import SearchIcon from '@mui/icons-material/Search';
+import { useAppContext } from '../pages/appContext';
+import { styled, useTheme } from '@mui/material/styles';
+import ClearAllIcon from '@mui/icons-material/ClearAll';
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import Button from '@mui/material/Button';
-import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
-import FilterAltIcon from '@mui/icons-material/FilterAlt';
-import ClearAllIcon from '@mui/icons-material/ClearAll';
-import SearchIcon from '@mui/icons-material/Search';
 import { Checkbox, InputAdornment, TextField, Tooltip } from '@mui/material';
-import { useState } from 'react';
-import { useAppContext } from '../pages/appContext';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
+import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 
 const drawerWidth = 300;
 

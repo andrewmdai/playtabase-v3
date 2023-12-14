@@ -1,5 +1,5 @@
-import './styles.css';
 import Home from '.';
+import './styles.css';
 
 export default function MyApp() {
   return (
