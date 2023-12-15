@@ -3,7 +3,7 @@ import GameDetail from './[id]';
 import GameCard from '../components/GameCard';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { useAppContext } from './appContext';
+import { useAppContext } from '../components/appContext';
 
 export default function Main() {
   const { games, setGames, fetchedGames, setFetchedGames } = useAppContext();

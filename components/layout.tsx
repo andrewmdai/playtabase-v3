@@ -9,7 +9,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import IconButton from '@mui/material/IconButton';
 import CssBaseline from '@mui/material/CssBaseline';
 import SearchIcon from '@mui/icons-material/Search';
-import { useAppContext } from '../pages/appContext';
+import { useAppContext } from './appContext';
 import { styled, useTheme } from '@mui/material/styles';
 import ClearAllIcon from '@mui/icons-material/ClearAll';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';

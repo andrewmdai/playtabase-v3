@@ -1,6 +1,6 @@
 import Main from './main';
 import Layout from '../components/layout';
-import { AppProvider } from './appContext';
+import { AppProvider } from '../components/appContext';
 import clientPromise from '../lib/mongodb';
 import type { InferGetServerSidePropsType, GetServerSideProps } from 'next';
 
