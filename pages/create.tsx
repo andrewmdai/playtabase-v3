@@ -345,7 +345,7 @@ const Create = (props: any) => {
           fontSize: '2em',
           fontWeight: '700',
         }}
-        title=<a>Create a Game</a>
+        title={<a>Create a Game</a>}
       />
       <CardContent>
         <div>
