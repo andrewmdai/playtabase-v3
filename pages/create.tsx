@@ -68,7 +68,8 @@ const Create = (props: any) => {
     false,
   ]);
   const [supplies, suppliesOnChange] = useInput('');
-  const [settingSet, setSettingSet] = useState({});
+  const [settingSet, setSettingSet] = useState([false, false]);
+
   const [setup, setupOnChange] = useInput('');
   const [howto, howtoOnChange] = useInput('');
   const [tagsInput, tagsOnChange] = useInput('');
@@ -113,9 +114,12 @@ const Create = (props: any) => {
       const suppliesReq = supplies.split(',');
 
       const settingArray = [];
-      for (const idx in settingSet) {
-        settingArray.push(settings[idx]);
+      for (let i = 0; i < settings.length; i++) {
+        if (settingSet[i] === true) {
+          settingArray.push(settings[i]);
+        }
       }
+      
       const setting = settingArray[0];
 
       const howToPlay = howto;
@@ -237,7 +241,6 @@ const Create = (props: any) => {
       <div key={index} className='horizontalBoxes'>
         <Checkbox
           size='small'
-          // className='setupTimeCheckbox'
           value={index}
           onChange={handleSetupTimeCheck}
         />
@@ -270,9 +273,8 @@ const Create = (props: any) => {
   // Setting Block
   const handleSettingCheck = (e: any) => {
     const idx = e.target.value;
-    const newSettingSet = settingSet;
-    if (newSettingSet[idx]) newSettingSet[idx] = false;
-    else newSettingSet[idx] = true;
+    const newSettingSet = [...settingSet];
+    newSettingSet[idx] = !newSettingSet[idx];
     setSettingSet(newSettingSet);
   };
   const settings = ['in-person', 'virtual'];
